@@ -1,0 +1,6 @@
+.DS_Store
+.venv
+*.o
+*.bin
+execve
+find_got
