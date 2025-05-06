@@ -1,4 +1,6 @@
-# straycat (UNC3886 simulation) (CVE-2025-21590)
+# straycat
+
+UNC3886 simulation - CVE-2025-21590. Using vJunos-router-23.2R1.15.
 
 ## Description
 
@@ -12,7 +14,11 @@ To bypass Veriexec, the execution of untrusted code must be done in a trusted pr
 
 ## The minimal PoC
 
-There are a few differences between the original exploit and this one. I didn't use the TINYSHELL backdoor so no C2 involved. I just used a simple shellcode to spawn a shell to try the process injection technique against Junos OS routers in an attempt to find a way to log such activity.
+There are a few differences between the original exploit and this one. I didn't use the TINYSHELL backdoor so no C2 involved. Instead I used a simple shellcode to spawn a shell to play with the process injection technique against Junos OS routers in an attempt to find a way to log such activity.
+
+### Why only the process injection?
+
+I feel that attempting to detect tinyshell and command and control behaviour could be easily swapped with something else instead. So I feel the initial exploitation vectors are more promising for stronger detection but unfortunately harder to to detect.
 
 ### FreeBSD shellcode
 
@@ -61,7 +67,7 @@ hexdump -v -e '16/1 "%02x " "\n"' loader.bin > loader.hex
 
 ### Packaging
 
-Before writing this up, I tested against Ubuntu on aarch64 and x86_64 on VMs on my local machine. I had to extract the cat binary from the Junos OS to check some addresses as well.
+Before writing this up, I tested against Ubuntu on aarch64 and x86_64 on VMs on my local machines. I had to extract the cat binary from the Junos OS to check some addresses.
 
 ```sh
 #!/bin/sh
@@ -135,4 +141,3 @@ echo >/tmp/null
 ## References
 
 - [Ghost in the Router: China-Nexus Espionage Actor UNC3886 Targets Juniper Routers | Google Cloud Blog](https://cloud.google.com/blog/topics/threat-intelligence/china-nexus-espionage-targets-juniper-routers)
-- [UNC3886: A New China-Nexus Espionage Actor](https://www.mandiant.com/resources/unc3886-new-china-nexus-espionage-actor)
